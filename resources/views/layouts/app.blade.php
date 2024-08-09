@@ -31,6 +31,7 @@
             <main>
                 {{ $slot }}
             </main>
+            <livewire:toasts.show />
         </div>
     </body>
 </html>

@@ -40,8 +40,13 @@ new class extends Component {
     public function delete(Post $post): void
     {
         $this->authorize('delete', $post);
-        $post->delete();
-        $this->getPosts();
+        if($post->delete()) {
+            $this->getPosts();
+            $this->dispatch('show-toast', __('Votre post à été supprimé.'), 'info');
+        } else {
+            $this->dispatch('show-toast', __('Aïe... votre post n\'a pas pû être supprimé...'), 'error');
+            Log::error("Post {$post->id} couldn't be deleted");
+        }
     } 
 
 }; ?>

@@ -21,6 +21,7 @@ new class extends Component {
         $validated = $this->validate();
         $this->post->update($validated);
         $this->dispatch('post-updated');
+        $this->dispatch('show-toast', __('Hop, une correction de faite.'), 'info');
     }
  
     public function cancel(): void
