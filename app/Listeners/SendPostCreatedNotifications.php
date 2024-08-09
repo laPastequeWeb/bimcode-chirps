@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
+use App\Models\User;
 use App\Events\PostCreated;
 use App\Notifications\NewPost;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -23,8 +23,9 @@ class SendPostCreatedNotifications implements ShouldQueue
      */
     public function handle(PostCreated $event): void
     {
-        foreach (User::whereNot('id', $event->post->user_id)->cursor() as $user) {
-            $user->notify(new NewPost($event->post));
+        $user = $event->post->user;
+        foreach ($user->subscribers()->cursor() as $follower) {
+            $follower->notify(new NewPost($event->post));
         }
     }
 }

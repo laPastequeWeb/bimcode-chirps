@@ -1,9 +1,10 @@
 <?php
 
+use Livewire\Attributes\On;
 use Livewire\Volt\Component;
 
 new class extends Component {
-
+    
     public array $messages;
 
     #[On('show-toast')]

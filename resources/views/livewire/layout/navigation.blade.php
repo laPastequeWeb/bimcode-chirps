@@ -16,34 +16,34 @@ new class extends Component
     }
 }; ?>
 
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-slate-800 border-b border-gray-100 md:h-[101%] md:shadow-lg">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
+    <div class="w-full md:w-min px-4 sm:px-6 lg:px-2">
+        <div class="flex md:flex-col md:h-screen gap-10 justify-between md:justify-normal">
+            <div class="flex md:flex-col">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
+                <div class="mt-2 mb-6 shrink-0 justify-center flex items-center">
                     <a href="{{ route('dashboard') }}" wire:navigate>
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <x-application-logo class="brightness-200 h-9 fill-current text-gray-500" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                <div class="flex flex-col gap-2 hidden sm:-my-px sm:ms-5 sm:flex">
+                    <x-nav-link class="text-white hover:text-white" :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('posts')" :active="request()->routeIs('posts')" wire:navigate>
+                    <x-nav-link class="text-white hover:text-white" :href="route('posts')" :active="request()->routeIs('posts')" wire:navigate>
                         {{ __('Posts') }}
                     </x-nav-link>
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:flex sm:items-center sm:ms-3">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-slate-800 hover:text-white focus:outline-none transition ease-in-out duration-150">
                             <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
 
                             <div class="ms-1">
@@ -55,13 +55,13 @@ new class extends Component
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile')" wire:navigate>
+                        <x-dropdown-link class="text-white hover:bg-slate-800" :href="route('profile')" wire:navigate>
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
-                            <x-dropdown-link>
+                            <x-dropdown-link class="text-white hover:bg-slate-800">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </button>
@@ -84,10 +84,10 @@ new class extends Component
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+            <x-responsive-nav-link class="text-white bg-transparent" :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('posts')" :active="request()->routeIs('posts')" wire:navigate>
+            <x-responsive-nav-link class="text-white bg-transparent" :href="route('posts')" :active="request()->routeIs('posts')" wire:navigate>
                 {{ __('Posts') }}
             </x-responsive-nav-link>
         </div>
@@ -96,17 +96,17 @@ new class extends Component
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800" x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
-                <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
+                <div class="font-medium text-sm text-white">{{ auth()->user()->email }}</div>
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile')" wire:navigate>
+                <x-responsive-nav-link class="text-white" :href="route('profile')" wire:navigate>
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
                 <button wire:click="logout" class="w-full text-start">
-                    <x-responsive-nav-link>
+                    <x-responsive-nav-link class="text-white">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </button>
