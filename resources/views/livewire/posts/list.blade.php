@@ -47,7 +47,31 @@ new class extends Component {
             $this->dispatch('show-toast', __('Aïe... votre post n\'a pas pû être supprimé...'), 'error');
             Log::error("Post {$post->id} couldn't be deleted");
         }
-    } 
+    }
+
+    public function subscribe(User $targetUser): void
+    {
+        $user = auth()->user();
+
+        if(!$user->subscriptions()->where('subscribed_user_id', $targetUser->id)->exists()) {
+            $user->subscriptions()->attach($targetUser->id);
+            $this->dispatch('show-toast', __("Vous vous êtes abonné à {$targetUser->name}"), 'success');
+        } else {
+            $this->dispatch('show-toast', __("Vous vous êtes déjà abonné à {$targetUser->name}"), 'error');
+        }
+    }
+
+    public function unsubscribe(User $targetUser): void
+    {
+        $user = auth()->user();
+
+        if($user->subscriptions()->where('subscribed_user_id', $targetUser->id)->exists()) {
+            $user->subscriptions()->detach($targetUser->id);
+            $this->dispatch('show-toast', __("Vous vous êtes désabonnés de {$targetUser->name}"), 'success');
+        } else {
+            $this->dispatch('show-toast', __("Vous ne pouvez pas vous désabonner d'un utilisateur que nous ne suivez pas."), 'error');
+        }
+    }
 
 }; ?>
 
@@ -66,25 +90,36 @@ new class extends Component {
                             <small class="text-sm text-gray-600"> &middot; {{ __('edited') }}</small>
                         @endunless
                     </div>
-                    @if ($post->user->is(auth()->user()))
-                        <x-dropdown>
-                            <x-slot name="trigger">
-                                <button>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                                    </svg>
-                                </button>
-                            </x-slot>
-                            <x-slot name="content">
+                    <x-dropdown>
+                        <x-slot name="trigger">
+                            <button>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                </svg>
+                            </button>
+                        </x-slot>
+                        <x-slot name="content">
+                            @if($post->user->is(auth()->user()))
                                 <x-dropdown-link wire:click="edit({{ $post->id }})">
                                     {{ __('Edit') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link wire:click="delete({{ $post->id }})" wire:confirm="Are you sure to delete this chirp?"> 
                                     {{ __('Delete') }}
-                                </x-dropdown-link> 
-                            </x-slot>
-                        </x-dropdown>
-                    @endif
+                                </x-dropdown-link>
+                                @if(!$post->user->is(auth()->user()))
+                                    @if(!auth()->user()->subscriptions()->where('subscribed_user_id', $post->user->id)->exists())
+                                        <x-dropdown-link wire:click="subscribe({{ $post->user->id }})">
+                                            {{ __('Subscribe') }}
+                                        </x-dropdown-link>
+                                    @else
+                                        <x-dropdown-link wire:click="unsubscribe({{ $post->user->id }})">
+                                            {{ __('Unsubscribe') }}
+                                        </x-dropdown-link>
+                                    @endif
+                                @endif
+                            @endif
+                        </x-slot>
+                    </x-dropdown>
                 </div>
                 @if ($post->is($editing)) 
                     <livewire:posts.edit :post="$post" :key="$post->id" />
