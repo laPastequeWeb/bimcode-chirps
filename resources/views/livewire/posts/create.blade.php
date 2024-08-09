@@ -13,6 +13,7 @@ new class extends Component {
         $validated = $this->validate();
         auth()->user()->posts()->create($validated);
         $this->message = '';
+        $this->dispatch('post-created'); 
     } 
 
 }; ?>
