@@ -9,7 +9,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 new class extends Component {
 
-    public $posts; 
+    public Collection $posts; 
     public ?Post $editing = null;
  
     public function mount(): void
@@ -146,10 +146,4 @@ new class extends Component {
             </div>
         @endforeach
     </div>
-    <script>
-        document.addEventListener('scroll', () => {
-            const scrollElement = document.getElementById('list');
-            scrollElement.scrollTop = window.scrollY;
-        });
-    </script>
 </div>
