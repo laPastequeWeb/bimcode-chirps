@@ -18,7 +18,7 @@ new class extends Component
 
 <nav x-data="{ open: false }" class="bg-slate-800 border-b border-gray-100 md:h-[101%] md:shadow-lg">
     <!-- Primary Navigation Menu -->
-    <div class="w-full md:w-min px-4 sm:px-6 lg:px-2">
+    <div class="w-full md:w-min px-4 sm:px-6 lg:px-2 md:min-w-[180px]">
         <div class="flex md:flex-col md:h-screen gap-10 justify-between md:justify-normal">
             <div class="flex md:flex-col">
                 <!-- Logo -->
@@ -41,7 +41,7 @@ new class extends Component
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-3">
-                <x-dropdown align="right" width="48">
+                <x-dropdown align="right" width="48" mode="nav">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-slate-800 hover:text-white focus:outline-none transition ease-in-out duration-150">
                             <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>

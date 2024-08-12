@@ -1,4 +1,4 @@
-@props(['align' => 'right', 'width' => '48', 'contentClasses' => 'py-1 bg-slate-800'])
+@props(['align' => 'right', 'width' => '48', 'contentClasses' => 'py-1 bg-slate-800', 'mode' => 'content'])
 
 @php
 $alignmentClasses = match ($align) {
@@ -12,8 +12,7 @@ $width = match ($width) {
     default => $width,
 };
 @endphp
-
-<div class="relative" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
+<div class="relative @if($mode === "nav") w-full @endif" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
     <div @click="open = ! open">
         {{ $trigger }}
     </div>
