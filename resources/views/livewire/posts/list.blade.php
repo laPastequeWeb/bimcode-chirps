@@ -11,6 +11,7 @@ new class extends Component {
 
     public Collection $posts; 
     public ?Post $editing = null;
+    public int $toLoad = 10;
  
     public function mount(): void
     {
@@ -22,7 +23,14 @@ new class extends Component {
     {
         $this->posts = Post::with('user')
             ->latest()
+            ->limit($this->toLoad)
             ->get();
+    }
+
+    public function loadMore()
+    {
+        $this->toLoad += 5;
+        $this->getPosts();
     }
 
     public function edit(Post $post): void
@@ -79,7 +87,18 @@ new class extends Component {
 }; ?>
 
 <div>
-    <div id="list" class="h-[calc(100vh-260px)] mt-6 bg-slate-800 shadow-sm rounded-lg divide-y divide-slate-700 overflow-y-scroll" style="-ms-overflow-style: none; scrollbar-width: none;"> 
+    <div    id="list" 
+            class="relative h-[44vh] md:h-[calc(100vh-300px)] mt-6 bg-slate-800 shadow-sm rounded-lg divide-y divide-slate-700 overflow-y-scroll"
+            style="-ms-overflow-style: none; scrollbar-width: none;"
+            x-data 
+            x-init="$el.addEventListener('scroll', () => {
+                if ($el.scrollTop + $el.clientHeight >= $el.scrollHeight) {
+                    setTimeout(() => {
+                        $wire.call('loadMore');
+                    }, 500);
+                }
+            })"
+    > 
         @foreach ($posts as $post)
             <div class="p-6 flex space-x-2 relative" wire:key="{{ $post->id }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white -scale-x-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -145,5 +164,11 @@ new class extends Component {
                 @endif
             </div>
         @endforeach
+        <div wire:loading.class="block" wire:loading.remove.class="hidden" class="absolute fixed inset-0 flex items-center justify-center bg-white bg-opacity-[.05] backdrop-blur-sm hidden">
+            <svg class="animate-spin h-10 w-10 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+            </svg>
+        </div>
     </div>
 </div>
