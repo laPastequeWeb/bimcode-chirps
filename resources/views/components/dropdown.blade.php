@@ -27,7 +27,7 @@ $width = match ($width) {
             class="absolute z-50 mt-2 {{ $width }} rounded-md {{ $alignmentClasses }}"
             style="display: none;"
             @click="open = false">
-        <div class="sm:ms-10 shadow-md border-2 border-slate-700 {{ $contentClasses }}">
+        <div class="sm:ms-10 @if($mode !== "nav") shadow-md border-2 border-slate-700 @endif {{ $contentClasses }}">
             {{ $content }}
         </div>
     </div>
