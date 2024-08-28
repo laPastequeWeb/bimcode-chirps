@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommitController;
+use App\Http\Controllers\DashboardController;
 
-Route::view('/', 'dashboard')
+Route::get('/', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
@@ -14,5 +16,9 @@ Route::view('profile', 'profile')
 Route::get('posts', [PostController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('posts');
+
+Route::get('commits', [CommitController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('commits');
 
 require __DIR__.'/auth.php';

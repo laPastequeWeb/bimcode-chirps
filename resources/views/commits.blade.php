@@ -1,3 +1,3 @@
 <x-app-layout>
-    <livewire:dashboard />
+    <livewire:commits />
 </x-app-layout>

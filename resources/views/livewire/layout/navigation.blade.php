@@ -23,18 +23,21 @@ new class extends Component
             <div class="flex md:flex-col">
                 <!-- Logo -->
                 <div class="mt-2 mb-6 shrink-0 justify-center flex items-center">
-                    <a href="{{ route('dashboard') }}" wire:navigate>
+                    <a href="{{ route('dashboard') }}" wire:navigate.hover>
                         <x-application-logo class="brightness-200 h-9 fill-current text-gray-500" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="flex flex-col gap-2 hidden sm:-my-px sm:ms-5 sm:flex">
-                    <x-nav-link class="text-white hover:text-white" :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                    <x-nav-link class="text-white hover:text-white" :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate.hover>
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link class="text-white hover:text-white" :href="route('posts')" :active="request()->routeIs('posts')" wire:navigate>
+                    <x-nav-link class="text-white hover:text-white" :href="route('posts')" :active="request()->routeIs('posts')" wire:navigate.hover>
                         {{ __('Posts') }}
+                    </x-nav-link>
+                    <x-nav-link class="text-white hover:text-white" :href="route('commits')" :active="request()->routeIs('commits')" wire:navigate.hover>
+                        {{ __('Commits') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -55,7 +58,7 @@ new class extends Component
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link class="text-white hover:bg-slate-800" :href="route('profile')" wire:navigate>
+                        <x-dropdown-link class="text-white hover:bg-slate-800" :href="route('profile')" wire:navigate.hover>
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
@@ -84,11 +87,14 @@ new class extends Component
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link class="text-white bg-transparent" :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+            <x-responsive-nav-link class="text-white bg-transparent" :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate.hover>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link class="text-white bg-transparent" :href="route('posts')" :active="request()->routeIs('posts')" wire:navigate>
+            <x-responsive-nav-link class="text-white bg-transparent" :href="route('posts')" :active="request()->routeIs('posts')" wire:navigate.hover>
                 {{ __('Posts') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link class="text-white bg-transparent" :href="route('commits')" :active="request()->routeIs('commits')" wire:navigate.hover>
+                {{ __('Commits') }}
             </x-responsive-nav-link>
         </div>
 
@@ -100,7 +106,7 @@ new class extends Component
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link class="text-white" :href="route('profile')" wire:navigate>
+                <x-responsive-nav-link class="text-white" :href="route('profile')" wire:navigate.hover>
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
